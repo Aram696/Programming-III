@@ -8,7 +8,7 @@ function generate(a, b) {
             matrix[i].push(Math.round(Math.random() * 5))
         }
     }
-   
+
 }
 
 generate(50, 50);
