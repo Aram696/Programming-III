@@ -34,8 +34,8 @@ class LivingCreation {
 
 class Grass extends LivingCreation {
 
-    constructor(x,y) {
-        super(x,y)
+    constructor(x, y) {
+        super(x, y)
         this.multiply = 0;
     }
 
@@ -56,9 +56,9 @@ class Grass extends LivingCreation {
 }
 
 class GrassEater extends LivingCreation {
-    
-    constructor(x,y) {
-        super(x,y)
+
+    constructor(x, y) {
+        super(x, y)
         this.energy = 5;
     }
 
@@ -156,8 +156,8 @@ class GrassEater extends LivingCreation {
 
 class Predator extends LivingCreation {
 
-    constructor(x,y){
-        super(x,y)
+    constructor(x, y) {
+        super(x, y)
         this.energy = 5;
         this.multiply = 6;
     }
@@ -252,9 +252,9 @@ class Predator extends LivingCreation {
 }
 
 class Tractor extends LivingCreation {
-    
-    constructor(x,y){
-        super(x,y);
+
+    constructor(x, y) {
+        super(x, y);
         this.energy = 5;
     }
 
@@ -328,9 +328,9 @@ class Tractor extends LivingCreation {
 }
 
 class Bomb extends LivingCreation {
-    
-    constructor(x,y){
-        super(x,y);
+
+    constructor(x, y) {
+        super(x, y);
         this.energy = 1;
     }
 
@@ -422,6 +422,86 @@ class Bomb extends LivingCreation {
                 if (bombArr[i].x === this.x && bombArr[i].y === this.y) {
 
                     bombArr.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+class Farmer extends LivingCreation {
+    constructor(x, y) {
+        super(x, y);
+        this.energy = 3;
+    }
+
+    newCoordinates() {
+        this.directions = [
+            [this.x - 1, this.y - 1],
+            [this.x, this.y - 1],
+            [this.x + 1, this.y - 1],
+            [this.x - 1, this.y],
+            [this.x + 1, this.y],
+            [this.x - 1, this.y + 1],
+            [this.x, this.y + 1],
+            [this.x + 1, this.y + 1]
+        ];
+    }
+
+    move() {
+
+        this.energy--
+        let emptyCell = random(this.chooseCell(0))
+
+        if (emptyCell) {
+            this.multiply++
+            let x = emptyCell[0];
+            let y = emptyCell[1];
+
+            matrix[y][x] = 6;
+            matrix[this.y][this.x] = 0;
+
+            this.x = x;
+            this.y = y;
+
+        }
+        this.die()
+    }
+
+    eat() {
+        let food = random(this.chooseCell(1)); //[8,6]
+
+        if (food && this.multiply > 12) {
+            let x = food[0];
+            let y = food[1];
+
+            matrix[y][x] = 6;
+
+            for (let i = 0; i < grassArr.length; i++) {
+                if (grassArr[i].x == x && grassArr[i].y == y) {
+                    grassArr.splice(i, 1);
+                }
+
+            }
+
+            matrix[this.y][this.x] = 0;
+
+            this.x = x;
+            this.y = y;
+            this.energy += 2;
+
+        } else {
+            this.move()
+        }
+    }
+
+    die() {
+        if (this.energy === 0) {
+            matrix[this.y][this.x] = 0
+            for (let i = 0; i < farmerArr.length; i++) {
+                if (farmerArr[i].x === this.x && farmerArr[i].y === this.y) {
+
+                    farmerArr.splice(i, 1);
                     break;
                 }
             }

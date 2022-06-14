@@ -5,7 +5,7 @@ function generate(a, b) {
     for (let i = 0; i < a; i++) {
         matrix.push([]);
         for (let j = 0; j < b; j++) {
-            matrix[i].push(Math.round(Math.random() * 5))
+            matrix[i].push(Math.round(Math.random() * 6))
         }
     }
 
@@ -28,6 +28,7 @@ let grassEaterArr = [];
 let predatorArr = [];
 let tractorArr = [];
 let bombArr = [];
+let farmerArr = [];
 
 function objectCreation() {
     for (var y = 0; y < matrix.length; y++) {
@@ -46,6 +47,9 @@ function objectCreation() {
             }
             else if (matrix[y][x] === 5) {
                 bombArr.push(new Bomb(x, y));
+            }
+            else if (matrix[y][x] === 6) {
+                farmerArr.push(new Farmer(x, y));
             }
         }
     }
@@ -77,6 +81,9 @@ function draw() {
             else if (matrix[y][x] == 5) {
                 fill("black");
             }
+            else if (matrix[y][x] == 6) {
+                fill("purple");
+            }
 
             rect(x * side, y * side, side, side);
 
@@ -103,5 +110,8 @@ function draw() {
         bombArr[i].eat_grasseater();
         bombArr[i].eat_predator();
         bombArr[i].eat_tractor();
+    }
+    for (let i = 0; i < farmerArr.length; i++) {
+        farmerArr[i].eat();
     }
 }
